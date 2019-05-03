@@ -34,7 +34,7 @@ function criarCard() {
      * push(): cria um uid único e insere os dados dentro deste uid
      */
     ref.push(card).then(snapshot => {
-        adicionaCardATela(card, snapshot.key)
+        // adicionaCardATela(card, snapshot.key)
     })    
 };
 
@@ -130,11 +130,41 @@ document.addEventListener("DOMContentLoaded", function () {
         // console.log('key...', snapshot.key)
 
         snapshot.forEach(value => {
-            // console.log('key...', value.key)
+            console.log('key...', value.key)
 
             adicionaCardATela(value.val(), value.key)
         })
     })
+
+    /**
+     * on(value): retorna tudo que tem assim que um novo objeto for salvo no firebase
+     */
+    // ref.on('value', snapshot => {
+    //     snapshot.forEach(value => {
+    //         adicionaCardATela(value.val(), value.key)
+    //     })
+    // })
+
+    // /**
+    //  * 
+    //  */
+    // ref.on('child_added', snapshot => {
+    //     adicionaCardATela(snapshot.val(), snapshot.key)
+    // })
+
+    // /**
+    //  * 
+    //  */
+    // ref.on('child_changed', (snapshot, uid) => {
+    //     console.log(snapshot.key, uid)
+    // })
+
+    // /**
+    //  * 
+    //  */
+    // ref.on('child_removed', snapshot => {
+    //     console.log('removed...', snapshot.key)
+    // })
 });
 
 /**
