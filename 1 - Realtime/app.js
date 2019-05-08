@@ -156,7 +156,16 @@ document.addEventListener("DOMContentLoaded", function () {
      * .endAt(): Retorna valores menores do parâmetro informado
      * .equalTo(): Retorna o valor igual do parâmetro informado
      */
-    ref.orderByChild('idade').equalTo(21).on('child_added', snapshot => {
+    // ref.orderByChild('idade').equalTo(21).on('child_added', snapshot => {
+    //     adicionaCardATela(snapshot.val(), snapshot.key)
+    // })
+
+    /**
+     * Limites
+     * .limitToFirst(): os 5 primeiros
+     * .limitToLast(): os 5 últimos
+     */
+    ref.orderByChild('idade').startAt(0).limitToLast(20).on('child_added', snapshot => {
         adicionaCardATela(snapshot.val(), snapshot.key)
     })
 
