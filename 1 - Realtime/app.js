@@ -144,9 +144,20 @@ document.addEventListener("DOMContentLoaded", function () {
      * .orderByValue(): Orderna pelo o valor de cada propriedade dentro do nó, não vale para nós que tenha como filho outros nós
      * ATENÇÂO: Só é possível utilizar apenas um método de ordernação por vez!
      */
-    ref.child('-LeKAMRGG9Hc7MserH3V').orderByValue().on('child_added', snapshot => {
-        // adicionaCardATela(snapshot.val(), snapshot.key)
-        console.log(`valor da chave ${snapshot.key} é ${snapshot.val()}`)
+    // ref.child('-LeKAMRGG9Hc7MserH3V').orderByValue().on('child_added', snapshot => {
+    //     // adicionaCardATela(snapshot.val(), snapshot.key)
+    //     console.log(`valor da chave ${snapshot.key} é ${snapshot.val()}`)
+    // })
+
+
+    /**
+     * Filtros
+     * .startAt(): Retorna valores aparti do parâmetro informado
+     * .endAt(): Retorna valores menores do parâmetro informado
+     * .equalTo(): Retorna o valor igual do parâmetro informado
+     */
+    ref.orderByChild('idade').equalTo(21).on('child_added', snapshot => {
+        adicionaCardATela(snapshot.val(), snapshot.key)
     })
 
     /**
