@@ -165,8 +165,15 @@ document.addEventListener("DOMContentLoaded", function () {
      * .limitToFirst(): os 5 primeiros
      * .limitToLast(): os 5 últimos
      */
-    ref.orderByChild('idade').startAt(0).limitToLast(20).on('child_added', snapshot => {
-        adicionaCardATela(snapshot.val(), snapshot.key)
+    // ref.orderByChild('idade').startAt(0).limitToLast(20).on('child_added', snapshot => {
+    //     adicionaCardATela(snapshot.val(), snapshot.key)
+    // })
+
+    ref.on('value', snapshot => {
+        snapshot.forEach(value => {
+            adicionaCardATela(value.val(), value.key)
+        })
+        ref.off('value')
     })
 
     /**
