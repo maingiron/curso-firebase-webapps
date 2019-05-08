@@ -104,6 +104,11 @@ function descurtir(id) {
  * Espera o evento de que a DOM está pronta para executar algo
  */
 document.addEventListener("DOMContentLoaded", function () {
+
+    firebase.database.enableLogging(msg => {
+        console.log('[FIREBASE]', msg)
+    })
+
     /**
      * once(): retorna os dados de uma url
      * snapshot: objeto retornado pela leitura (por conversão padrão, essa é o nome dado ao objeto de retorno)
