@@ -33,9 +33,20 @@ function criarCard() {
     /**
      * push(): cria um uid único e insere os dados dentro deste uid
      */
-    ref.push(card).then(snapshot => {
-        // adicionaCardATela(card, snapshot.key)
-    })    
+    // ref.push(card).then(snapshot => {
+    //     // adicionaCardATela(card, snapshot.key)
+    // })    
+
+    /**
+     * Usando fetch para criar card
+     */
+    fetch('https://curso-firebase-webapps-b61eb.firebaseio.com/card.json', {
+        body: JSON.stringify(card),
+        method: 'POST',
+        mode: 'no-cors'
+    }).catch((err) => {
+        console.log(`Erro... ${err}`)
+    })
 };
 
 /**
@@ -179,14 +190,25 @@ document.addEventListener("DOMContentLoaded", function () {
     //     adicionaCardATela(snapshot.val(), snapshot.key)
     // })
 
-    ref.on('value', snapshot => {
-        snapshot.forEach(value => {
-            adicionaCardATela(value.val(), value.key)
+    // ref.on('value', snapshot => {
+    //     snapshot.forEach(value => {
+    //         adicionaCardATela(value.val(), value.key)
+    //     })
+    //     ref.off('value')
+    // }, err => {
+    //     console.log(`Erro no on... ${err}`)
+    // })
+
+    /**
+     * Usando fetch no lugar do firebase
+     */
+    fetch('https://curso-firebase-webapps-b61eb.firebaseio.com/card.json')
+        .then(res => res.json())
+        .then(res => {
+            for (let key in res) {
+                adicionaCardATela(res[key], res)
+            }
         })
-        ref.off('value')
-    }, err => {
-        console.log(`Erro no on... ${err}`)
-    })
 
     /**
      * on(value): retorna tudo que tem assim que um novo objeto for salvo no firebase
