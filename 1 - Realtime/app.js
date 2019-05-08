@@ -76,6 +76,8 @@ function curtir(id) {
      */
     ref.child(id + '/curtidas').set(countNumber).then(() => {
         count.innerHTML = countNumber
+    }, err => {
+        console.log(`Erro ao curtir... ${err}`)
     })
 };
 
@@ -96,6 +98,8 @@ function descurtir(id) {
          */
         ref.child(id).update({ curtidas: countNumber }).then(() => {
             count.innerHTML = countNumber
+        }).catch((err) => {
+            console.log(`Erro ao curtir... ${err}`)
         })
     }
 };
@@ -105,9 +109,10 @@ function descurtir(id) {
  */
 document.addEventListener("DOMContentLoaded", function () {
 
-    firebase.database.enableLogging(msg => {
-        console.log('[FIREBASE]', msg)
-    })
+    // Logger do firebase
+    // firebase.database.enableLogging(msg => {
+    //     console.log('[FIREBASE]', msg)
+    // })
 
     /**
      * once(): retorna os dados de uma url
@@ -179,6 +184,8 @@ document.addEventListener("DOMContentLoaded", function () {
             adicionaCardATela(value.val(), value.key)
         })
         ref.off('value')
+    }, err => {
+        console.log(`Erro no on... ${err}`)
     })
 
     /**
