@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
      * once(): retorna os dados de uma url
      * snapshot: objeto retornado pela leitura (por conversão padrão, essa é o nome dado ao objeto de retorno)
      */
-    ref.once('value').then(snapshot => {
+    // ref.once('value').then(snapshot => {
         // acessa um nó filho
         // console.log('child...', snapshot.child('-LduwwFmQMs8kkqqUab0').val())
 
@@ -129,11 +129,24 @@ document.addEventListener("DOMContentLoaded", function () {
         // retorna a chave do snapshot/caminho
         // console.log('key...', snapshot.key)
 
-        snapshot.forEach(value => {
-            console.log('key...', value.key)
+    //     snapshot.forEach(value => {
+    //         console.log('key...', value.key)
 
-            adicionaCardATela(value.val(), value.key)
-        })
+    //         adicionaCardATela(value.val(), value.key)
+    //     })
+    // })
+
+    // ORDERNAÇÃO
+    /**
+     * Ordernação
+     * .orderByChild('filho'): Orderna pelo propriedade filho passado como parâmetro
+     * .orderByKey(): Orderna pela chave dos nós (que são um "timestamp")
+     * .orderByValue(): Orderna pelo o valor de cada propriedade dentro do nó, não vale para nós que tenha como filho outros nós
+     * ATENÇÂO: Só é possível utilizar apenas um método de ordernação por vez!
+     */
+    ref.child('-LeKAMRGG9Hc7MserH3V').orderByValue().on('child_added', snapshot => {
+        // adicionaCardATela(snapshot.val(), snapshot.key)
+        console.log(`valor da chave ${snapshot.key} é ${snapshot.val()}`)
     })
 
     /**
