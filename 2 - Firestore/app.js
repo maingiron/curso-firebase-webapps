@@ -8,6 +8,29 @@ var NOMES = ["Anderson", "Beatriz", "Caio", "Daniela", "Everton", "Fabiana", "Ga
  * Botão para cria um card no card-contaier
  */
 function criarCard() {
+    let card = {
+        nome: NOMES[Math.floor(Math.random() * NOMES.length - 1)],
+        idade: Math.floor(Math.random() * 22 + 18),
+        curtidas: 0
+    }
+
+    /**
+     * .collection('coleção') --> referência da coleção
+     * .doc('documento') --> referência do documento
+     * .set({dados}) --> grava o objeto passado por parâmetro
+     */
+    // firebase.firestore().collection('cards').doc('1').set(card).then(() => {
+    //     console.log('dados adicionado')
+    //     adicionaCardATela(card, 1)
+    // })
+
+    /**
+     * .add({dados}) --> Adiciona os dados dentro de um UID gerado de forma automática
+     */
+    firebase.firestore().collection('cards').add(card).then(() => {
+        console.log('dados adicionado')
+        adicionaCardATela(card, 1)
+    })
     
 };
 
