@@ -47,6 +47,18 @@ function deletar(id) {
  * @param {String} id Id do card
  */
 function curtir(id) {
+
+    let card = document.getElementById(id)
+    let count = card.getElementsByClassName('count-number')[0]
+    let countNumber = +count.innerHTML
+    countNumber++
+    
+    /**
+     * .update({dados}) --> Atualiza todos os dados passado no parâmetro (pode ser usado somente em docs)
+     */
+    firebase.firestore().collection('cards').doc(id).update({curtidas: countNumber}).then(() => {
+        count.innerHTML = countNumber
+    })
     
 };
 
@@ -55,6 +67,18 @@ function curtir(id) {
  * @param {String} id Id do card
  */
 function descurtir(id) {
+
+    let card = document.getElementById(id)
+    let count = card.getElementsByClassName('count-number')[0]
+    let countNumber = +count.innerHTML
+    
+    if (countNumber > 0) {
+        countNumber--
+
+        firebase.firestore().collection('cards').doc(id).update({curtidas: countNumber}).then(() => {
+            count.innerHTML = countNumber
+        })
+    }
     
 };
 
@@ -63,6 +87,9 @@ function descurtir(id) {
  */
 document.addEventListener("DOMContentLoaded", function () {
     
+    /**
+     * .get() --> busca o resultado apenas uma vez
+     */
     firebase.firestore().collection('cards').get().then(snapshot => {
 
         // Pega os documentos dentro da coleção, retorna um objeto e precisa de um foreach
@@ -83,15 +110,41 @@ document.addEventListener("DOMContentLoaded", function () {
         // Retorna um array com todas as mudanças que a coleção teve desde a última leitura
         // snapshot.docChanges()
 
-        snapshot.docs.forEach(card => {
+        // snapshot.docs.forEach(card => {
             
-            // card.data() --> retorna os dados do documento
-            // card.id --> retorna o UID
-            // card.isEqual(doc) --> Verifica se o conteudo do documento é igual ao passado por parâmetro (serve para docs e collections)
+        //     // card.data() --> retorna os dados do documento
+        //     // card.id --> retorna o UID
+        //     // card.isEqual(doc) --> Verifica se o conteudo do documento é igual ao passado por parâmetro (serve para docs e collections)
 
-            adicionaCardATela(card.data(), card.id)
+        //     adicionaCardATela(card.data(), card.id)
+        // })
+    })
+
+    /**
+     * .onSnapshot() --> Observa em tempo real
+     */
+    firebase.firestore().collection('cards').onSnapshot(snapshot => {
+
+        // Usar dessa forma é equivalente ao .on('value') do Realtime database
+        // snapshot.docs.forEach()
+
+        // Retorna todos os dados do evento "added" na primeira chamada e depois
+        // retorna apenas novos documentos ou documentos que sofreram alterações
+        snapshot.docChanges().forEach(card => {
+            if (card.type === "added") {
+                adicionaCardATela(card.doc.data(), card.doc.id)
+            }
+
+            if (card.type === "modified") {
+                console.log("modified")
+            }
+
+            if (card.type === "removed") {
+                console.log("removed")
+            }
         })
     })
+
 });
 
 /**
