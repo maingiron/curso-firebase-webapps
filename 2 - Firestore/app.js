@@ -63,6 +63,35 @@ function descurtir(id) {
  */
 document.addEventListener("DOMContentLoaded", function () {
     
+    firebase.firestore().collection('cards').get().then(snapshot => {
+
+        // Pega os documentos dentro da coleção, retorna um objeto e precisa de um foreach
+        // snapshot.docs()
+
+        // Verifica se o snapshot está vazio
+        // snapshot.empty
+
+        // Pega os metadados da coleção
+        // snapshot.metadata()
+
+        // Retorna a query utilizada para esse get
+        // snapshot.query()
+
+        // Retorna o número de documentos dentro da coleção
+        // snapshot.size()
+
+        // Retorna um array com todas as mudanças que a coleção teve desde a última leitura
+        // snapshot.docChanges()
+
+        snapshot.docs.forEach(card => {
+            
+            // card.data() --> retorna os dados do documento
+            // card.id --> retorna o UID
+            // card.isEqual(doc) --> Verifica se o conteudo do documento é igual ao passado por parâmetro (serve para docs e collections)
+
+            adicionaCardATela(card.data(), card.id)
+        })
+    })
 });
 
 /**
