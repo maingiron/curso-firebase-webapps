@@ -186,11 +186,30 @@ document.addEventListener("DOMContentLoaded", function () {
     /**
      * Limite
      */
+    // firebase.firestore().collection("cards").limit(3).get().then(snapshot => {
+    //     snapshot.forEach(card => {
+    //         adicionaCardATela(card.data(), card.id)
+    //     })
+    // })
+
+    /**
+     * Cursores / Filtros 
+     * .startAt(valor) --> igual ao >=
+     * .startAfter(valor) --> igual ao >
+     * .startBefore(valor) --> igual ao <
+     * .endAt(valor) --> igual ao <=
+     */
+    let startAt
     firebase.firestore().collection("cards").limit(3).get().then(snapshot => {
-        snapshot.forEach(card => {
-            adicionaCardATela(card.data(), card.id)
+        // Os cursores aceitam um valor ou um documento para começar o filtro
+        startAt = snapshot.docs[snapshot.docs.length - 1]
+        firebase.firestore().collection("cards").startAt(startAt).get().then(snapshot => {
+            snapshot.forEach(card => {
+                adicionaCardATela(card.data(), card.id)
+            })
         })
     })
+    
 
 });
 
