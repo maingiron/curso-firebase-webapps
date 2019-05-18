@@ -27,9 +27,33 @@ function criarCard() {
     /**
      * .add({dados}) --> Adiciona os dados dentro de um UID gerado de forma automática
      */
-    firebase.firestore().collection('cards').add(card).then(() => {
-        console.log('dados adicionado')
-        adicionaCardATela(card, 1)
+    // firebase.firestore().collection('cards').add(card).then(() => {
+    //     console.log('dados adicionado')
+    //     adicionaCardATela(card, 1)
+    // })
+
+    /**
+     * Gravação em lote
+     */
+    let batch = firebase.firestore().batch()
+    let cards = []
+
+    for(let i = 0; i < 3; i++) {
+        let doc = {
+            nome: NOMES[Math.floor(Math.random() * NOMES.length - 1)],
+            idade: Math.floor(Math.random() * 22 + 18),
+            curtidas: 0
+        }
+
+        cards.push(doc)
+        let ref = firebase.firestore().collection("cards").doc(String(i))
+        batch.set(ref, doc)
+    }
+
+    batch.commit(() => {
+        for (let i = 0; i < cards.length; i++) {
+            adicionaCardATela(cards[i], i)
+        }
     })
     
 };
@@ -209,7 +233,6 @@ document.addEventListener("DOMContentLoaded", function () {
             })
         })
     })
-    
 
 });
 
