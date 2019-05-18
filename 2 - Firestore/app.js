@@ -177,7 +177,16 @@ document.addEventListener("DOMContentLoaded", function () {
      * Ordenação
      * ao usar where e orderBy, obrigatoriamente precisa ser o mesmo atributo
      */
-    firebase.firestore().collection("cards").where("curtidas", ">", 0).orderBy("curtidas", "desc").get().then(snapshot => {
+    // firebase.firestore().collection("cards").where("curtidas", ">", 0).orderBy("curtidas", "desc").get().then(snapshot => {
+    //     snapshot.forEach(card => {
+    //         adicionaCardATela(card.data(), card.id)
+    //     })
+    // })
+
+    /**
+     * Limite
+     */
+    firebase.firestore().collection("cards").limit(3).get().then(snapshot => {
         snapshot.forEach(card => {
             adicionaCardATela(card.data(), card.id)
         })
