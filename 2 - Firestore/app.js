@@ -167,8 +167,18 @@ document.addEventListener("DOMContentLoaded", function () {
      * .where não aceita || ou && ou !=
      * collection().where(xpto) --> doc --> collection().where(xpto) Não aceita (utilizar o filter, map, ou reduce)
      */
-    firebase.firestore().collection('cards').where('idade', ">", 25).where('idade', "<", 35).get().then(snapshot => {
-        snapshot.docs.forEach(card => {
+    // firebase.firestore().collection('cards').where('idade', ">", 25).where('idade', "<", 35).get().then(snapshot => {
+    //     snapshot.docs.forEach(card => {
+    //         adicionaCardATela(card.data(), card.id)
+    //     })
+    // })
+
+    /**
+     * Ordenação
+     * ao usar where e orderBy, obrigatoriamente precisa ser o mesmo atributo
+     */
+    firebase.firestore().collection("cards").where("curtidas", ">", 0).orderBy("curtidas", "desc").get().then(snapshot => {
+        snapshot.forEach(card => {
             adicionaCardATela(card.data(), card.id)
         })
     })
