@@ -42,11 +42,30 @@ fileInput.onchange = function (event) {
 
     tarefaUpload = ref.child(uid).put(arquivo)
 
-    tarefaUpload.then(snapshot => {
-        console.log('snapshot...', snapshot)
-    }).catch(error => {
-        console.log('error...', error)
+    /**
+     * .on('state_changed', arquivo_observavel(), error(), completou())
+     */
+    tarefaUpload.on('state_changed', upload => {
+        console.log('Mudou o estado', upload)
+        // .state retorna o estado do upload (running, paused, success)
+        if (upload.state == 'running') {
+            let progresso = Math.round((upload.bytesTransferred / upload.totalBytes) * 100)
+            console.log(`${progresso}%`)
+        }
+    }, error => {
+        console.log('Aconteceu um erro...', error)
+    }, () => {
+        console.log('Completou o upload')
+        ref.child(uid).getDownloadURL().then(url => {
+            console.log(url)
+        })
     })
+
+    // tarefaUpload.then(snapshot => {
+    //     console.log('snapshot...', snapshot)
+    // }).catch(error => {
+    //     console.log('error...', error)
+    // })
 }
 
 /**
