@@ -107,3 +107,11 @@ function cancelar() {
     tarefaUpload.cancel()
     console.log('Cancelou tafera')
 }
+
+function deletar() {
+    ref.child('-LflCKL5YmoL1JKkuNNu').delete().then(() => {
+        console.log("Deletou o arquivo")
+    }).catch(error => {
+        console.log('Error...', error)
+    })
+}
