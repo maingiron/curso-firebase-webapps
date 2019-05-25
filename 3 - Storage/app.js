@@ -11,18 +11,33 @@ let ref = firebase.storage().ref('arquivos')
  */
 fileInput.onchange = function (event) {
     let arquivo = event.target.files[0]
+    // Cria um uid sem inserir nada do firebase realtime
+    let uid = firebase.database().ref().push().key
 
     /**
      * .child('nome') --> Acessa o caminho para inserir o arquivo
      * .put(arquivo) --> Adiciona o arquivo
      */
-    ref.child('arquivo').put(arquivo).then(snapshot => {
+    ref.child(uid).put(arquivo, {
+        customMetadata: {
+            nome: 'Curriculo'
+        }
+    }).then(snapshot => {
         console.log('snapshot...', snapshot)
         // getDownloadURL() --> Retorna a url aonde o arquivo foi hospedado
-        ref.child('arquivo').getDownloadURL().then(url => {
+        ref.child(uid).getDownloadURL().then(url => {
             console.log('string para download...', url)
         })
+
+        ref.child(uid).getMetadata().then(metadata => {
+            console.log('metadata...', metadata)
+        })
     })
+
+    // getMetadata() --> Retorna os metadata dos arquivos hospedados
+    // ref.child('arquivo').getMetadata().then(metadata => {
+    //     console.log(metadata)
+    // })
 }
 
 /**
