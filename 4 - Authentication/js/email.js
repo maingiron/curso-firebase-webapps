@@ -38,6 +38,22 @@ document.addEventListener("DOMContentLoaded", function () {
         if (usuario) {
             console.log('Usuário logado...', usuario)
             currentUser = usuario
+
+            // Mudando o idioma do firebase
+            firebase.auth().languageCode = "pt"
+            // Muda o idioma para o utilizado no aparalho
+            firebase.auth().useDeviceLanguage()
+            // if (usuario.emailVerified) {
+            //     // Envia um email de verificação
+            //     usuario.sendEmailVerification().then(() => {
+            //         alert("Email de verificação enviado")
+            //     })
+            // }
+
+            // firebase.auth().sendPasswordResetEmail(usuario.email).then(() => {
+            //     alert("Email de reset de senha enviado")
+            // })
+
         } else {
             console.log('Não há usuário logado')
         }
